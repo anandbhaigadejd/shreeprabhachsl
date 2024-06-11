@@ -1,12 +1,1 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My GitHub Page</title>
-</head>
-<body>
-    <h1>Welcome to My GitHub Page</h1>
-    <p>This is a simple HTML file hosted on GitHub Pages.</p>
-</body>
-</html>
+<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>QR Code Payment Generator</title> <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script> </head> <body> <h2>QR Code Payment Generator</h2> <form id="paymentForm"> <label for="vpa">Bank VPA:</label> <input type="text" id="vpa" name="vpa" required><br><br> <label for="amount">Fixed Amount:</label> <input type="number" id="amount" name="amount" required><br><br> <label for="notes">Fixed Notes:</label> <input type="text" id="notes" name="notes"><br><br> <button type="button" onclick="generateQRCode()">Generate QR Code</button> </form> <canvas id="qr-code"></canvas> <script> function generateQRCode() { const vpa = document.getElementById('vpa').value; const amount = document.getElementById('amount').value; const notes = document.getElementById('notes').value; const qrContent = `upi://pay?pa=$%7Bvpa%7D&am=$%7Bamount%7D&cu=INR&tn=$%7Bnotes%7D%60; const qr = new QRious({ element: document.getElementById('qr-code'), value: qrContent, size: 200 }); } </script> </body> </html>
