@@ -1,1 +1,61 @@
-<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>QR Code Payment Generator</title> <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script> </head> <body> <h2>QR Code Payment Generator</h2> <form id="paymentForm"> <label for="vpa">Bank VPA:</label> <input type="text" id="vpa" name="vpa" required><br><br> <label for="amount">Fixed Amount:</label> <input type="number" id="amount" name="amount" required><br><br> <label for="notes">Fixed Notes:</label> <input type="text" id="notes" name="notes"><br><br> <button type="button" onclick="generateQRCode()">Generate QR Code</button> </form> <canvas id="qr-code"></canvas> <script> function generateQRCode() { const vpa = document.getElementById('vpa').value; const amount = document.getElementById('amount').value; const notes = document.getElementById('notes').value; const qrContent = `upi://pay?pa=$%7Bvpa%7D&am=$%7Bamount%7D&cu=INR&tn=$%7Bnotes%7D%60; const qr = new QRious({ element: document.getElementById('qr-code'), value: qrContent, size: 200 }); } </script> </body> </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UPI QR Code Generator</title>
+    <script>
+        function generateQRCode() {
+            var vpa = document.getElementById('vpa').value;
+            var amount = document.getElementById('amount').value;
+            var notes = document.getElementById('notes').value;
+            
+            if (vpa === "" || amount === "" || notes === "") {
+                alert("All fields are required.");
+                return;
+            }
+
+            var upiString = `upi://pay?pa=${vpa}&am=${amount}&tn=${notes}`;
+            var qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(upiString)}&size=200x200`;
+
+            document.getElementById('qrCode').src = qrCodeUrl;
+            document.getElementById('qrCode').style.display = 'block';
+        }
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+        }
+        form {
+            max-width: 400px;
+            margin: auto;
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        img {
+            display: none;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>UPI QR Code Generator</h1>
+    <form onsubmit="event.preventDefault(); generateQRCode();">
+        <label for="vpa">Bank VPA:</label>
+        <input type="text" id="vpa" name="vpa" required>
+        
+        <label for="amount">Fixed Amount:</label>
+        <input type="number" id="amount" name="amount" required>
+        
+        <label for="notes">Fixed Notes:</label>
+        <input type="text" id="notes" name="notes" required>
+        
+        <button type="submit">Generate QR Code</button>
+    </form>
+    <img id="qrCode" alt="Generated QR Code">
+</body>
+</html>
